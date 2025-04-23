@@ -16,3 +16,4 @@ DS_Store
 *.swm
 *.swp
 *.swo   
+src/config/config.json
