@@ -1,31 +1,26 @@
 import winston, { createLogger, format, transports } from "winston";
 import { serverConfig } from "../config/index.js";
 
-const {combine, timestamp, label, printf} = format;
-
-const customFormat = printf(({level, message, timestamp}) => {
-    return `${timestamp} : ${level} : ${message}`;
-});
-
-
-export const logger = createLogger({
-  level: serverConfig.ENV === "production" ? "info" : "debug",
-  format: combine(
-    timestamp({
+export const Logger = createLogger({
+  level: serverConfig.NODE_ENV === "production" ? "info" : "debug",
+  format: winston.format.combine(
+    winston.format.timestamp({
       format: "YYYY-MM-DD HH:mm:ss",
     }),
-
-    customFormat
+    winston.format.errors({ stack: true }),
+    winston.format.splat(),
+    winston.format.json()
   ),
+  defaultMeta: { service: "airplane-crud" },
   transports: [
-    new transports.Console({
+    new winston.transports.Console({
       format: winston.format.combine(
         winston.format.colorize(),
         winston.format.simple()
       ),
     }),
-    new transports.File({ filename: "combined.log" }),
-    new transports.File({ filename: "error.log", level: "error" }),
+    new winston.transports.File({ filename: "error.log", level: "error" }),
+    new winston.transports.File({ filename: "combined.log" }),
   ],
 });
 

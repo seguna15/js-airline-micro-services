@@ -1,9 +1,10 @@
 import express from "express";
-import { healthInfo } from "../../controllers/index.js";
+import airplaneRoutes from "./airplane.routes.js";
+
 
 
 const router = express.Router()
 
-router.get("/health", healthInfo)
+router.use("/airplane", airplaneRoutes)
 
 export default router;
