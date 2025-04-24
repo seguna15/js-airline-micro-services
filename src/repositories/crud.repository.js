@@ -1,3 +1,5 @@
+import { StatusCodes } from "http-status-codes";
+import AppError from "../utils/errors/app.error.js";
 import { Logger } from "../utils/index.js";
 
 export default class CrudRepository {
@@ -20,18 +22,15 @@ export default class CrudRepository {
   }
 
   async get(data) {
-    const response = await this.model.findByPK({
-      where: {
-        id: data,
-      },
-    });
+    const response = await this.model.findByPk(data);
+    if(!response){
+      throw new AppError(["Not able to find the resource"], StatusCodes.NOT_FOUND)
+    }
     return response;
   }
 
   async getAll() {
-    const response = await this.model.findAll({
-      
-    });
+    const response = await this.model.findAll();
     return response;
   }
 

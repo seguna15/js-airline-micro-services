@@ -43,22 +43,39 @@ export default class AirplaneController {
 
   /**
    * @method : GET
-   * @param : 
+   * @param :
    * @route : {api/v1/airplanes}
    * @access: Protected
    */
-    getAirplanes = async (req, res, next) => {
-      try {
-        const airplanes = await this.airplaneService.getAirplanes();
-        Logger.info("Airplanes fetched successfully");
-        successResponse.data = airplanes;
-        successResponse.message = "Airplanes fetched successfully";
-        return res.status(StatusCodes.OK).json(successResponse);
-      }catch(error){
-        errorResponse.error = error;
-        return res
-          .status(StatusCodes.INTERNAL_SERVER_ERROR)
-          .json(errorResponse);
-      }
+  getAirplanes = async (req, res, next) => {
+    try {
+      const airplanes = await this.airplaneService.getAirplanes();
+      Logger.info("Airplanes fetched successfully");
+      successResponse.data = airplanes;
+      successResponse.message = "Airplanes fetched successfully";
+      return res.status(StatusCodes.OK).json(successResponse);
+    } catch (error) {
+      errorResponse.error = error;
+      return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(errorResponse);
     }
+  };
+
+  /**
+   * @method : GET
+   * @param :
+   * @route : {api/v1/airplanes/:id}
+   * @access: Protected
+   */
+  getAirplane = async (req, res, next) => {
+    try {
+      const airplane = await this.airplaneService.getAirplane(req.params.id);
+      Logger.info("Airplane fetched successfully");
+      successResponse.data = airplane;
+      successResponse.message = "Airplane fetched successfully";
+      return res.status(StatusCodes.OK).json(successResponse);
+    } catch (error) {
+      errorResponse.error = error;
+      return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(errorResponse);
+    }
+  };
 }

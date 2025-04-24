@@ -10,6 +10,8 @@ airplaneRoutes
   .get("/health", airplaneController.healthInfo)
   .post("/", validateCreateRequest, airplaneController.createAirplane)
   .get("/", airplaneController.getAirplanes)
+  .get("/:id", airplaneController.getAirplane)
+
 
 
 export default airplaneRoutes;
