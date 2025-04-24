@@ -2,7 +2,7 @@ import { StatusCodes } from "http-status-codes"
 import { errorResponse } from "../utils/common/index.js"
 import AppError from "../utils/errors/app.error.js";
 
-export const validateCreateRequest = (req,res, next) => {
+export const validateRequest = (req,res, next) => {
     if(!req.body.modelNumber){
         errorResponse.message = "Something went wrong while creating request";
        

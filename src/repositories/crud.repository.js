@@ -46,6 +46,12 @@ export default class CrudRepository {
         id,
       },
     });
+    if (!response) {
+      throw new AppError(
+        ["Not able to find the resource"],
+        StatusCodes.NOT_FOUND
+      );
+    }
     return response;
   }
 }

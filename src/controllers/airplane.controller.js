@@ -36,6 +36,7 @@ export default class AirplaneController {
       successResponse.message = "Airplane created successfully";
       return res.status(StatusCodes.CREATED).json(successResponse);
     } catch (error) {
+      Logger.error(error);
       errorResponse.error = error;
       return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(errorResponse);
     }
@@ -55,6 +56,7 @@ export default class AirplaneController {
       successResponse.message = "Airplanes fetched successfully";
       return res.status(StatusCodes.OK).json(successResponse);
     } catch (error) {
+      Logger.error(error);
       errorResponse.error = error;
       return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(errorResponse);
     }
@@ -74,6 +76,7 @@ export default class AirplaneController {
       successResponse.message = "Airplane fetched successfully";
       return res.status(StatusCodes.OK).json(successResponse);
     } catch (error) {
+      Logger.error(error);
       errorResponse.error = error;
       return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(errorResponse);
     }
@@ -87,14 +90,43 @@ export default class AirplaneController {
    */
   destroyAirplane = async (req, res, next) => {
     try {
-      const airplane = await this.airplaneService.destroyAirplane(req.params.id);
+      const airplane = await this.airplaneService.destroyAirplane(
+        req.params.id
+      );
       Logger.info("Airplane deleted successfully");
       successResponse.data = airplane;
       successResponse.message = "Airplane deleted successfully";
       return res.status(StatusCodes.OK).json(successResponse);
     } catch (error) {
+      Logger.error(error);
       errorResponse.error = error;
       return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(errorResponse);
     }
   };
+
+  /**
+   * @method : PUT
+   * @param :
+   * @route : {api/v1/airplanes/:id}
+   * @access: Protected
+   */
+   updateAirplane = async (req, res, next) => {
+     try {
+       const airplane = await this.airplaneService.updateAirplane(
+         req.params.id, {
+          modelNumber: req.body.modelNumber,
+          capacity: req.body.capacity,
+         }
+       );
+       Logger.info("Airplane updated successfully");
+       
+       successResponse.data = airplane[0];
+       successResponse.message = "Airplane updated successfully";
+       return res.status(StatusCodes.OK).json(successResponse);
+     } catch (error) {
+      Logger.error(error);
+       errorResponse.error = error;
+       return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(errorResponse);
+     }
+  }
 }

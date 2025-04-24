@@ -7,7 +7,7 @@ export default class AirplaneService {
     this.airplaneRepository = new AirplaneRepository();
   }
 
-  createAirplane = async (data) => {
+  async createAirplane (data) {
     try {
       const airplane = await this.airplaneRepository.create(data);
       return airplane;
@@ -27,7 +27,7 @@ export default class AirplaneService {
     }
   };
 
-  getAirplanes = async () => {
+  async getAirplanes() {
     try {
       const airplanes = await this.airplaneRepository.getAll();
       return airplanes;
@@ -39,7 +39,7 @@ export default class AirplaneService {
     }
   };
 
-  getAirplane = async (id) => {
+  async getAirplane(id) {
     try {
       const airplane = await this.airplaneRepository.get(id);
 
@@ -75,4 +75,31 @@ export default class AirplaneService {
       );
     }
   }
+
+  async updateAirplane(id, data) {
+     try {
+          const response = await this.airplaneRepository.update(id, data);
+          return response;
+     } catch (error) {
+         
+          if (error.name === "SequelizeValidationError") {
+            let explanation = [];
+            error.errors.forEach((err) => {
+              explanation.push(err.message);
+            });
+            throw new AppError(explanation, StatusCodes.BAD_REQUEST);
+          }
+          if (error.statusCode === StatusCodes.NOT_FOUND) {
+               throw new AppError(
+                    ["Airplane requested is not present"],
+                    error.statusCode
+               );
+          }
+          throw new AppError(
+               ["Unable to update airplane data"],
+               StatusCodes.INTERNAL_SERVER_ERROR
+          );
+     }
+  }
+
 }   
