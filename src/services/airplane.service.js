@@ -42,16 +42,37 @@ export default class AirplaneService {
   getAirplane = async (id) => {
     try {
       const airplane = await this.airplaneRepository.get(id);
-      
+
       return airplane;
     } catch (error) {
-     if(error.statusCode === StatusCodes.NOT_FOUND){
-          throw new AppError(['Airplane requested is not present'], error.statusCode)
-     }
+      if (error.statusCode === StatusCodes.NOT_FOUND) {
+        throw new AppError(
+          ["Airplane requested is not present"],
+          error.statusCode
+        );
+      }
       throw new AppError(
         ["Cannot fetch airplane data"],
         StatusCodes.INTERNAL_SERVER_ERROR
       );
     }
   };
+
+  async destroyAirplane(id) {
+    try {
+      const response = await this.airplaneRepository.destroy(id);
+      return response;
+    } catch (error) {
+     if (error.statusCode === StatusCodes.NOT_FOUND) {
+       throw new AppError(
+         ["Airplane requested is not present"],
+         error.statusCode
+       );
+     }
+      throw new AppError(
+        ["Cannot delete airplane data"],
+        StatusCodes.INTERNAL_SERVER_ERROR
+      );
+    }
+  }
 }   
