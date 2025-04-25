@@ -11,9 +11,18 @@ export default (sequelize, DataTypes) => {
       // define association here
       this.belongsTo(models.City, {
         foreignKey: "cityId",
+      });
+
+      this.hasMany(models.Flight, {
+        foreignKey: "departureAirport",
         onDelete: "CASCADE",
         onUpdate: "CASCADE",
-      });
+      })
+      this.hasMany(models.Flight, {
+        foreignKey: "arrivalAirport",
+        onDelete: "CASCADE",
+        onUpdate: "CASCADE",
+      })
       
     }
   }
@@ -31,12 +40,11 @@ export default (sequelize, DataTypes) => {
       },
       address: {
         type: DataTypes.STRING,
-        unique,
+        unique: true,
       },
       cityId: {
         type: DataTypes.INTEGER,
         allowNull: false,
-
       },
     },
     {

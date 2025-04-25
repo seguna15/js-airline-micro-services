@@ -11,6 +11,8 @@ export default (sequelize, DataTypes) => {
       // define association here
       this.hasMany(models.Airport, {
         foreignKey: "cityId",
+        onDelete: "CASCADE",
+        onUpdate: "CASCADE",
       })
     }
   }
