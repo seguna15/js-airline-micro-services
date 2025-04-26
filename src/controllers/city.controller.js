@@ -21,7 +21,7 @@ export default class CityController {
   };
   /**
    * @method : POST
-   * @param : {name: 'London', }
+   * @param : {name: "London"}
    * @route : {api/v1/cities}
    * @access: Protected
    */
@@ -105,7 +105,7 @@ export default class CityController {
 
   /**
    * @method : PUT
-   * @param :
+   * @param : {name: "London"}
    * @route : {api/v1/cities/:id}
    * @access: Protected
    */

@@ -89,25 +89,31 @@ export default class CityService {
           const response = await this.cityRepository.update(id, data);
           return response;
      } catch (error) {
-         
-          if (error.name === "SequelizeValidationError") {
-            let explanation = [];
-            error.errors.forEach((err) => {
-              explanation.push(err.message);
-            });
-            throw new AppError(explanation, StatusCodes.BAD_REQUEST);
-          }
-          if (error.statusCode === StatusCodes.NOT_FOUND) {
-               throw new AppError(
-                    ["City requested is not present"],
-                    error.statusCode
-               );
-          }
-          throw new AppError(
-               ["Unable to update city data"],
-               StatusCodes.INTERNAL_SERVER_ERROR
-          );
-     }
+        if (error.name === "SequelizeUniqueConstraintError"){
+        let explanation = [];
+        error.errors.forEach((err) => {
+          explanation.push(err.message);
+        });
+        throw new AppError(explanation, StatusCodes.CONFLICT);
+      }
+      if (error.name === "SequelizeValidationError") {
+        let explanation = [];
+        error.errors.forEach((err) => {
+          explanation.push(err.message);
+        });
+        throw new AppError(explanation, StatusCodes.BAD_REQUEST);
+      }
+      if (error.statusCode === StatusCodes.NOT_FOUND) {
+        throw new AppError(
+          ["City requested is not present"],
+          error.statusCode
+        );
+      }
+      throw new AppError(
+        ["Unable to update city data"],
+        StatusCodes.INTERNAL_SERVER_ERROR
+      );
+    }
   }
 
 }   

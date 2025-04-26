@@ -21,7 +21,7 @@ export default class AirplaneController {
   };
   /**
    * @method : POST
-   * @param : {modelNumber: 'airbus320', capacity: 200}
+   * @param : {modelNumber: "airbus380", capacity: 250}
    * @route : {api/v1/airplanes}
    * @access: Protected
    */
@@ -106,27 +106,28 @@ export default class AirplaneController {
 
   /**
    * @method : PUT
-   * @param :
+   * @param : {modelNumber: "airbus380", capacity: 250}
    * @route : {api/v1/airplanes/:id}
    * @access: Protected
    */
-   updateAirplane = async (req, res, next) => {
-     try {
-       const airplane = await this.airplaneService.updateAirplane(
-         req.params.id, {
+  updateAirplane = async (req, res, next) => {
+    try {
+      const airplane = await this.airplaneService.updateAirplane(
+        req.params.id,
+        {
           modelNumber: req.body.modelNumber,
           capacity: req.body.capacity,
-         }
-       );
-       Logger.info("Airplane updated successfully");
-       
-       successResponse.data = airplane[0];
-       successResponse.message = "Airplane updated successfully";
-       return res.status(StatusCodes.OK).json(successResponse);
-     } catch (error) {
+        }
+      );
+      Logger.info("Airplane updated successfully");
+
+      successResponse.data = airplane[0];
+      successResponse.message = "Airplane updated successfully";
+      return res.status(StatusCodes.OK).json(successResponse);
+    } catch (error) {
       Logger.error(error);
-       errorResponse.error = error;
-       return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(errorResponse);
-     }
-  }
+      errorResponse.error = error;
+      return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(errorResponse);
+    }
+  };
 }

@@ -4,7 +4,7 @@ import AppError from "../utils/errors/app.error.js";
 
 export const validateAirplaneRequest = (req,res, next) => {
     if(!req.body.modelNumber){
-        errorResponse.message = "Something went wrong while creating request";
+        errorResponse.message = "Something went wrong while creating airplane";
        
         errorResponse.error = new AppError(
           ["Model number is required"],

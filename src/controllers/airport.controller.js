@@ -19,16 +19,16 @@ export default class AirportController {
     successResponse.message = "API is healthy";
     return res.status(StatusCodes.OK).json(successResponse);
   };
-  
+
   /**
    * @method : POST
-   * @param : {name: "Murtala Mohammed International Airport", code: 'MM2', address: "", cityId: 1} 
+   * @param : {name: "London Gatwick", code: "LGW", address: "gatwick airport", cityId: 1}
    * @route : {api/v1/airports}
    * @access: Protected
    */
   createAirport = async (req, res, next) => {
     try {
-      console.log(req.body)
+      console.log(req.body);
       const airport = await this.airportService.createAirport({
         code: req.body.code,
         name: req.body.name,
@@ -108,7 +108,7 @@ export default class AirportController {
 
   /**
    * @method : PUT
-   * @param :
+   * @param : {name: "London Gatwick Airport", code: "LGW", address: "gatwick airport", cityId: 1}
    * @route : {api/v1/airports/:id}
    * @access: Protected
    */

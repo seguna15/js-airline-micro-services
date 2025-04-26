@@ -25,7 +25,6 @@ export async function up(queryInterface, Sequelize) {
     cityId: {
       type: Sequelize.INTEGER,
       allowNull: false,
-      unique: true,
     },
     createdAt: {
       allowNull: false,

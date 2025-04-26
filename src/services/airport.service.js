@@ -12,6 +12,13 @@ export default class AirportService {
       const airport = await this.airportRepository.create(data);
       return airport;
     } catch (error) {
+      if (error.name === "SequelizeUniqueConstraintError"){
+        let explanation = [];
+        error.errors.forEach((err) => {
+          explanation.push(err.message);
+        });
+        throw new AppError(explanation, StatusCodes.CONFLICT);
+      }
       if (error.name === "SequelizeValidationError") {
         let explanation = [];
         error.errors.forEach((err) => {
@@ -77,28 +84,34 @@ export default class AirportService {
   }
 
   async updateAirport(id, data) {
-     try {
-          const response = await this.airportRepository.update(id, data);
-          return response;
-     } catch (error) {
-         
-          if (error.name === "SequelizeValidationError") {
-            let explanation = [];
-            error.errors.forEach((err) => {
-              explanation.push(err.message);
-            });
-            throw new AppError(explanation, StatusCodes.BAD_REQUEST);
-          }
-          if (error.statusCode === StatusCodes.NOT_FOUND) {
-               throw new AppError(
-                    ["Airport requested is not present"],
-                    error.statusCode
-               );
-          }
-          throw new AppError(
-               ["Unable to update airport data"],
-               StatusCodes.INTERNAL_SERVER_ERROR
-          );
+    try {
+        const response = await this.airportRepository.update(id, data);
+        return response;
+    } catch (error) {
+      if (error.name === "SequelizeUniqueConstraintError") {
+        let explanation = [];
+        error.errors.forEach((err) => {
+          explanation.push(err.message);
+        });
+        throw new AppError(explanation, StatusCodes.CONFLICT);
+      }
+      if (error.name === "SequelizeValidationError") {
+        let explanation = [];
+        error.errors.forEach((err) => {
+          explanation.push(err.message);
+        });
+        throw new AppError(explanation, StatusCodes.BAD_REQUEST);
+      }
+      if (error.statusCode === StatusCodes.NOT_FOUND) {
+            throw new AppError(
+                ["Airport requested is not present"],
+                error.statusCode
+            );
+      }
+      throw new AppError(
+            ["Unable to update airport data"],
+            StatusCodes.INTERNAL_SERVER_ERROR
+      );
      }
   }
 

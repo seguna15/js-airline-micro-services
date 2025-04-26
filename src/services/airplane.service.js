@@ -12,6 +12,13 @@ export default class AirplaneService {
       const airplane = await this.airplaneRepository.create(data);
       return airplane;
     } catch (error) {
+      if (error.name === "SequelizeUniqueConstraintError"){
+        let explanation = [];
+        error.errors.forEach((err) => {
+          explanation.push(err.message);
+        });
+        throw new AppError(explanation, StatusCodes.CONFLICT);
+      }
       if (error.name === "SequelizeValidationError") {
         let explanation = [];
         error.errors.forEach((err) => {
@@ -82,24 +89,31 @@ export default class AirplaneService {
           return response;
      } catch (error) {
          
-          if (error.name === "SequelizeValidationError") {
-            let explanation = [];
-            error.errors.forEach((err) => {
-              explanation.push(err.message);
-            });
-            throw new AppError(explanation, StatusCodes.BAD_REQUEST);
-          }
-          if (error.statusCode === StatusCodes.NOT_FOUND) {
-               throw new AppError(
-                    ["Airplane requested is not present"],
-                    error.statusCode
-               );
-          }
-          throw new AppError(
-               ["Unable to update airplane data"],
-               StatusCodes.INTERNAL_SERVER_ERROR
-          );
-     }
+      if (error.name === "SequelizeUniqueConstraintError"){
+        let explanation = [];
+        error.errors.forEach((err) => {
+          explanation.push(err.message);
+        });
+        throw new AppError(explanation, StatusCodes.CONFLICT);
+      }
+      if (error.name === "SequelizeValidationError") {
+        let explanation = [];
+        error.errors.forEach((err) => {
+          explanation.push(err.message);
+        });
+        throw new AppError(explanation, StatusCodes.BAD_REQUEST);
+      }
+      if (error.statusCode === StatusCodes.NOT_FOUND) {
+        throw new AppError(
+          ["Airplane requested is not present"],
+          error.statusCode
+        );
+      }
+      throw new AppError(
+        ["Unable to update airplane data"],
+        StatusCodes.INTERNAL_SERVER_ERROR
+      );
+    }
   }
 
 }   
