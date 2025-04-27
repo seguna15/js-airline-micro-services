@@ -6,7 +6,7 @@ coverage
 *.tsbuildinfo
 *.tgz
 *.zip
-.DS_Store
+DS_Store
 .vscode
 .idea
 *.sublime-project
