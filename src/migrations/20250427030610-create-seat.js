@@ -29,7 +29,7 @@ export async function up(queryInterface, Sequelize) {
       type: Sequelize.STRING,
       allowNull: false,
     },
-    class: {
+    type: {
       type: Sequelize.ENUM,
       values: [SEAT_TYPE.BUSINESS, SEAT_TYPE.ECONOMY, SEAT_TYPE.PREMIUM_ECONOMY, SEAT_TYPE.FIRST_CLASS],
       defaultValue: SEAT_TYPE.ECONOMY,
