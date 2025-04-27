@@ -11,6 +11,7 @@ export default (sequelize, DataTypes) => {
       // define association here
       this.belongsTo(models.City, {
         foreignKey: "cityId",
+        as: "cityDetail"
       });
 
       this.hasMany(models.Flight, {

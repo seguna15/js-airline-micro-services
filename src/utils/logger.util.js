@@ -11,7 +11,7 @@ export const Logger = createLogger({
     winston.format.splat(),
     winston.format.json()
   ),
-  defaultMeta: { service: "airplane-crud" },
+  defaultMeta: { service: "flight-reservation-app" },
   transports: [
     new winston.transports.Console({
       format: winston.format.combine(

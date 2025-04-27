@@ -59,7 +59,7 @@ export default class FlightController {
   getAlLFlights = async (req, res, next) => {
     try {
       const flight = await this.flightService.getAllFlights(req.query);
-      Logger.info("Flight created successfully");
+      Logger.info("Flight fetched successfully");
       successResponse.data = flight;
       successResponse.message = "Flight created successfully";
       return res.status(StatusCodes.CREATED).json(successResponse);

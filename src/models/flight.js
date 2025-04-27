@@ -10,12 +10,16 @@ export default (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       this.belongsTo(models.Airplane, {
-        foreignKey: "airplaneId",})
+        foreignKey: "airplaneId",
+        as: 'airplaneDetail'
+      })
       this.belongsTo(models.Airport, {
         foreignKey: "departureAirport",
+        as: "departureAirportDetail"
       })
       this.belongsTo(models.Airport, {
         foreignKey: "arrivalAirport",
+        as: "arrivalAirportDetail"
       })
     }
   }
