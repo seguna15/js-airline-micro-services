@@ -1,9 +1,12 @@
+import BookingService from "../services/booking.service.js";
 import { successResponse } from "../utils/common/index.js";
 import { Logger } from "../utils/index.js";
 import { StatusCodes } from "http-status-codes";
 
 export default class BookingController {
-  constructor() {}
+  constructor() {
+    this.bookingService = new BookingService ;
+  }
 
   /**
    * @method : POST
