@@ -1,9 +1,8 @@
 import express from "express";
-import { healthInfo } from "../../controllers/index.js";
-
+import bookingRoutes from "./booking.route.js"
 
 const router = express.Router()
 
-router.get("/health", healthInfo)
+router.get("/booking", bookingRoutes);
 
 export default router;
